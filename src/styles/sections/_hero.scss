@@ -1,0 +1,209 @@
+@use '../variables' as *;
+@use '../mixins' as *;
+
+.hero {
+  position: relative;
+  min-height: 100vh;
+  padding-top: 110px;
+  padding-bottom: 60px;
+  display: flex;
+  align-items: center;
+
+  @include md {
+    padding-top: 96px;
+    padding-bottom: 40px;
+    min-height: auto;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 48px;
+    align-items: center;
+
+    @include lg {
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+
+    @include md {
+      grid-template-columns: 1fr;
+      gap: 40px;
+      text-align: center;
+    }
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+
+    @include md {
+      align-items: center;
+    }
+  }
+
+  // Profile avatar placeholder container
+  &__avatar-container {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 4px;
+
+    @include md {
+      justify-content: center;
+    }
+  }
+
+  &__avatar-frame {
+    position: relative;
+    width: 68px;
+    height: 68px;
+    border-radius: 20px;
+    padding: 3px;
+    background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+    box-shadow: 0 6px 20px var(--accent-glow);
+    flex-shrink: 0;
+
+    img {
+      width: 100%;
+      height: 100%;
+      border-radius: 17px;
+      object-fit: cover;
+    }
+  }
+
+  &__avatar-placeholder {
+    width: 100%;
+    height: 100%;
+    border-radius: 17px;
+    background: var(--bg-surface-elevated);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: $font-mono;
+    font-weight: 800;
+    font-size: 1.25rem;
+    color: var(--accent-primary);
+    border: 1px solid var(--border-subtle);
+  }
+
+  &__avatar-meta {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+  }
+
+  &__avatar-status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--accent-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  &__avatar-sub {
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+  }
+
+  // Typography
+  &__greeting {
+    font-size: clamp(1.125rem, 2vw, 1.35rem);
+    font-weight: 500;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    @include md {
+      justify-content: center;
+    }
+  }
+
+  &__headline {
+    font-size: clamp(2.5rem, 5.5vw, 4.25rem);
+    font-weight: 800;
+    line-height: 1.08;
+    letter-spacing: -0.04em;
+    color: var(--text-primary);
+  }
+
+  &__subheadline {
+    font-size: clamp(1.5rem, 3.2vw, 2.25rem);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    @include gradient-text(90deg);
+  }
+
+  &__description {
+    font-size: clamp(1rem, 1.8vw, 1.125rem);
+    color: var(--text-secondary);
+    line-height: 1.65;
+    max-width: 560px;
+
+    @include md {
+      margin: 0 auto;
+    }
+  }
+
+  // Action buttons
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    padding-top: 6px;
+
+    @include md {
+      justify-content: center;
+    }
+  }
+
+  // Social Links
+  &__socials {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-top: 8px;
+
+    @include md {
+      justify-content: center;
+    }
+  }
+
+  &__social-link {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: var(--surface-card);
+    border: 1px solid var(--border-subtle);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    transition: all $transition-fast;
+
+    @include focus-ring;
+
+    &:hover {
+      color: var(--accent-primary);
+      border-color: var(--border-accent);
+      background: var(--surface-card-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px var(--accent-glow);
+    }
+  }
+
+  &__visual {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+}

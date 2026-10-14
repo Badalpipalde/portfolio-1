@@ -1,0 +1,101 @@
+@use '../variables' as *;
+@use '../mixins' as *;
+
+.skills {
+  position: relative;
+
+  &__categories {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 36px;
+
+    @include sm {
+      gap: 6px;
+    }
+  }
+
+  &__category-btn {
+    padding: 8px 16px;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    border-radius: $radius-full;
+    background: var(--surface-card);
+    border: 1px solid var(--border-subtle);
+    color: var(--text-secondary);
+    transition: all $transition-fast;
+    cursor: pointer;
+
+    @include focus-ring;
+
+    &:hover {
+      color: var(--text-primary);
+      border-color: var(--border-hover);
+    }
+
+    &--active {
+      background: var(--badge-bg);
+      border-color: var(--border-accent);
+      color: var(--accent-primary) !important;
+      font-weight: 600;
+    }
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+
+    @include xl {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    @include md {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    @include sm {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__summary-strip {
+    margin-top: 48px;
+    padding: 24px 32px;
+    background: var(--surface-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: $radius-xl;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    backdrop-filter: blur(12px);
+
+    @include md {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 20px 24px;
+    }
+
+    &-title {
+      font-size: 0.9375rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    &-desc {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    &-badges {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+  }
+}

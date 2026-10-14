@@ -1,0 +1,169 @@
+@use '../variables' as *;
+@use '../mixins' as *;
+
+.about {
+  position: relative;
+
+  &__grid {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 64px;
+    align-items: start;
+
+    @include lg {
+      gap: 48px;
+    }
+
+    @include md {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+  }
+
+  // Left Editorial Content
+  &__editorial {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  &__bio {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    font-size: 1.0625rem;
+    line-height: 1.8;
+    color: var(--text-secondary);
+
+    p:first-of-type {
+      font-size: 1.1875rem;
+      color: var(--text-primary);
+      font-weight: 500;
+      line-height: 1.7;
+    }
+  }
+
+  // Engineering Pillars (Minimalist side-accented list)
+  &__pillars {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  &__pillar {
+    position: relative;
+    padding-left: 20px;
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 6px;
+      bottom: 6px;
+      width: 2.5px;
+      border-radius: 2px;
+      background: linear-gradient(to bottom, var(--accent-primary), var(--accent-secondary));
+    }
+
+    h4 {
+      font-size: 1.0625rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    p {
+      font-size: 0.9375rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+  }
+
+  // Right Side: Quick Info & Philosophy Callout
+  &__sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  &__details-panel {
+    background: var(--surface-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: $radius-xl;
+    padding: 32px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+
+    @include sm {
+      padding: 24px;
+    }
+  }
+
+  &__panel-title {
+    font-size: 0.8125rem;
+    font-family: $font-mono;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent-primary);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  &__detail-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding-bottom: 18px;
+    margin-bottom: 18px;
+    border-bottom: 1px solid var(--border-subtle);
+
+    &:last-child {
+      padding-bottom: 0;
+      margin-bottom: 0;
+      border-bottom: none;
+    }
+
+    dt {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+    }
+
+    dd {
+      font-size: 0.9375rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      line-height: 1.5;
+    }
+  }
+
+  // Code Philosophy Callout
+  &__quote-panel {
+    padding: 24px 28px;
+    border-radius: $radius-lg;
+    background: radial-gradient(circle at 10% 20%, rgba(37, 99, 235, 0.08) 0%, transparent 80%);
+    border: 1px solid var(--border-accent);
+    position: relative;
+
+    blockquote {
+      font-size: 0.9375rem;
+      font-style: italic;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 10px;
+    }
+
+    cite {
+      font-size: 0.8125rem;
+      font-style: normal;
+      font-weight: 600;
+      color: var(--accent-primary);
+    }
+  }
+}

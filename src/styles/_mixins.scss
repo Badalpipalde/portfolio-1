@@ -1,0 +1,91 @@
+// =============================================================================
+// SCSS Mixins & Utilities
+// Badal Pipalde — Full Stack Developer Portfolio
+// =============================================================================
+
+@use './variables' as *;
+
+// Responsive Breakpoint Mixins
+@mixin xs {
+  @media (max-width: #{$bp-xs}) {
+    @content;
+  }
+}
+
+@mixin sm {
+  @media (max-width: #{$bp-sm}) {
+    @content;
+  }
+}
+
+@mixin md {
+  @media (max-width: #{$bp-md}) {
+    @content;
+  }
+}
+
+@mixin lg {
+  @media (max-width: #{$bp-lg}) {
+    @content;
+  }
+}
+
+@mixin xl {
+  @media (max-width: #{$bp-xl}) {
+    @content;
+  }
+}
+
+// Glassmorphism Surface
+@mixin glass-surface($blur: 16px, $opacity: 0.7) {
+  background: var(--surface-glass);
+  backdrop-filter: blur($blur);
+  -webkit-backdrop-filter: blur($blur);
+  border: 1px solid var(--border-subtle);
+}
+
+// Elevated Glass Card
+@mixin glass-card {
+  background: var(--surface-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-subtle);
+  border-radius: $radius-lg;
+  box-shadow: var(--shadow-card);
+  transition: transform $transition-base, border-color $transition-base, box-shadow $transition-base;
+
+  &:hover {
+    border-color: var(--border-accent);
+    box-shadow: var(--shadow-card-hover);
+  }
+}
+
+// Subtle gradient text
+@mixin gradient-text($direction: 135deg) {
+  background: linear-gradient($direction, var(--gradient-text-start) 0%, var(--gradient-text-mid) 50%, var(--gradient-text-end) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+// Flex Center Helper
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// Truncate Text
+@mixin text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// Focus ring for accessibility
+@mixin focus-ring {
+  &:focus-visible {
+    outline: 2px solid $color-primary-light;
+    outline-offset: 3px;
+  }
+}

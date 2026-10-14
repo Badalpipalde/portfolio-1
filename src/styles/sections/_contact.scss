@@ -1,0 +1,217 @@
+@use '../variables' as *;
+@use '../mixins' as *;
+
+.contact {
+  position: relative;
+
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: 56px;
+    align-items: start;
+
+    @include lg {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+  }
+
+  // Left Info Column
+  &__info {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  &__card {
+    background: var(--surface-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: $radius-xl;
+    padding: 32px;
+    backdrop-filter: blur(12px);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    @include sm {
+      padding: 24px;
+    }
+  }
+
+  &__card-title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  &__card-desc {
+    font-size: 0.9375rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  &__channels {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  &__channel-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 16px;
+    border-radius: $radius-md;
+    background: var(--bg-surface-elevated);
+    border: 1px solid var(--border-subtle);
+    color: var(--text-primary);
+    transition: all $transition-fast;
+
+    @include focus-ring;
+
+    &:hover {
+      border-color: var(--border-accent);
+      background: var(--surface-card-hover);
+      transform: translateX(4px);
+      color: var(--accent-primary);
+    }
+  }
+
+  &__channel-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: var(--badge-bg);
+    border: 1px solid var(--badge-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent-primary);
+    flex-shrink: 0;
+  }
+
+  &__channel-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  &__channel-val {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  // Right Form Column
+  &__form-wrapper {
+    background: var(--surface-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: $radius-xl;
+    padding: 36px;
+    backdrop-filter: blur(12px);
+    box-shadow: var(--shadow-card);
+
+    @include sm {
+      padding: 24px;
+    }
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  &__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+
+    @include sm {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  &__label {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    span.required {
+      color: var(--accent-primary);
+    }
+  }
+
+  &__input,
+  &__textarea {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: $radius-md;
+    background: var(--input-bg);
+    border: 1.5px solid var(--input-border);
+    color: var(--text-primary);
+    font-size: 0.9375rem;
+    transition: all $transition-fast;
+
+    &::placeholder {
+      color: var(--text-muted);
+      opacity: 0.6;
+    }
+
+    &:focus {
+      border-color: var(--input-focus);
+      box-shadow: 0 0 0 3px var(--badge-bg);
+    }
+
+    &--error {
+      border-color: #ef4444 !important;
+      background: rgba(239, 68, 68, 0.04);
+    }
+  }
+
+  &__textarea {
+    min-height: 140px;
+    resize: vertical;
+  }
+
+  &__error-msg {
+    font-size: 0.75rem;
+    color: #ef4444;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  // Submission Status Banners
+  &__status-banner {
+    padding: 16px 20px;
+    border-radius: $radius-md;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    &--success {
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: #10b981;
+    }
+
+    &--notice {
+      background: var(--badge-bg);
+      border: 1px solid var(--badge-border);
+      color: var(--badge-text);
+      font-size: 0.8125rem;
+      line-height: 1.5;
+    }
+  }
+}

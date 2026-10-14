@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Primary Meta Tags -->
+    <title>Badal Pipalde — Full Stack Developer (MERN)</title>
+    <meta name="title" content="Badal Pipalde — Full Stack Developer (MERN)" />
+    <meta name="description" content="Portfolio of Badal Pipalde, a Full Stack Developer specializing in the MERN stack (MongoDB, Express, React, Node.js). Explore projects, technical skills, and architecture." />
+    <meta name="keywords" content="Badal Pipalde, Full Stack Developer, MERN Developer, React Developer, Node.js, Web Development, Portfolio" />
+    <meta name="author" content="Badal Pipalde" />
+    <meta name="theme-color" content="#070a12" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Badal Pipalde — Full Stack Developer" />
+    <meta property="og:description" content="Turning ideas into functional, scalable digital experiences through clean code and thoughtful design." />
+    <meta property="og:image" content="/favicon.svg" />
+
+    <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+    <!-- Anti-FOUC Theme Script -->
+    <script>
+      (function() {
+        try {
+          const stored = localStorage.getItem('badal-portfolio-theme');
+          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          const theme = stored ? stored : (prefersDark ? 'dark' : 'light');
+          document.documentElement.setAttribute('data-theme', theme);
+        } catch (e) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

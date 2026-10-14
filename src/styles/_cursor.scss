@@ -1,0 +1,78 @@
+// =============================================================================
+// Custom Cursor Styles
+// Badal Pipalde — Full Stack Developer Portfolio
+// =============================================================================
+
+@use './variables' as *;
+
+.custom-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: $z-cursor;
+  transform: translate(-50%, -50%);
+  transition: opacity $transition-base;
+  will-change: transform, width, height, border-color, background-color;
+
+  &__dot {
+    width: 8px;
+    height: 8px;
+    background-color: var(--accent-primary);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--accent-primary);
+    transition: transform 120ms ease, background-color $transition-fast;
+  }
+
+  &__ring {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 36px;
+    height: 36px;
+    border: 1.5px solid var(--cursor-ring-border);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: #{$z-cursor - 1};
+    transform: translate(-50%, -50%);
+    transition: width 200ms $ease-spring, height 200ms $ease-spring, border-color 200ms $ease-spring, background-color 200ms $ease-spring;
+    backdrop-filter: blur(1px);
+  }
+
+  // Hovering an interactive element
+  &--hovered {
+    .custom-cursor__dot {
+      transform: scale(0.4);
+      opacity: 0.8;
+    }
+
+    & + .custom-cursor__ring {
+      width: 54px;
+      height: 54px;
+      border-color: var(--accent-primary);
+      background-color: var(--cursor-hover-bg);
+    }
+  }
+
+  // Active / Clicked
+  &--active {
+    .custom-cursor__dot {
+      transform: scale(1.6);
+      background-color: var(--accent-secondary);
+    }
+
+    & + .custom-cursor__ring {
+      width: 28px;
+      height: 28px;
+      border-color: var(--accent-secondary);
+    }
+  }
+}
+
+// Hide custom cursor completely on touch devices or small screens
+@media (hover: none) or (pointer: coarse) {
+  .custom-cursor,
+  .custom-cursor__ring {
+    display: none !important;
+  }
+}
