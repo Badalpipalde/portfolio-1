@@ -1,15 +1,19 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, FileText, Check, Copy, Mail, ExternalLink } from 'lucide-react';
+import { X, FileText, Check, Copy, Mail, ExternalLink, Download, CheckCircle2 } from 'lucide-react';
 import { Button } from './Button';
 import { profileData } from '../data/profile';
 
 export function ResumeModal({ isOpen, onClose }) {
   const [copied, setCopied] = useState(false);
   const resumeConfig = profileData.resume;
+  const isAvailable = Boolean(resumeConfig?.isAvailable && resumeConfig?.filePath);
 
   const handleCopyPath = () => {
-    navigator.clipboard.writeText('public/resume.pdf');
+    const fullUrl = typeof window !== 'undefined'
+      ? `${window.location.origin}${resumeConfig.filePath}`
+      : 'public/resume.pdf';
+    navigator.clipboard.writeText(fullUrl);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -23,14 +27,14 @@ export function ResumeModal({ isOpen, onClose }) {
         style={{
           position: 'fixed',
           inset: 0,
-          background: 'rgba(0, 0, 0, 0.7)',
-          backdropFilter: 'blur(8px)',
-          WebkitBackdropFilter: 'blur(8px)',
+          background: 'rgba(0, 0, 0, 0.72)',
+          backdropFilter: 'blur(10px)',
+          WebkitBackdropFilter: 'blur(10px)',
           zIndex: 1000,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          padding: '20px',
+          padding: '16px',
         }}
         onClick={onClose}
       >
@@ -44,9 +48,13 @@ export function ResumeModal({ isOpen, onClose }) {
             background: 'var(--bg-surface-elevated)',
             border: '1px solid var(--border-accent)',
             borderRadius: '20px',
-            maxWidth: '520px',
+            maxWidth: isAvailable ? '840px' : '520px',
             width: '100%',
-            padding: '32px',
+            maxHeight: '92vh',
+            display: 'flex',
+            flexDirection: 'column',
+            overflow: 'hidden',
+            padding: '24px 28px',
             boxShadow: 'var(--shadow-card-hover)',
             position: 'relative',
           }}
@@ -54,13 +62,14 @@ export function ResumeModal({ isOpen, onClose }) {
           aria-modal="true"
           aria-labelledby="resume-modal-title"
         >
+          {/* Close Button */}
           <button
             onClick={onClose}
             aria-label="Close modal"
             style={{
               position: 'absolute',
-              top: '20px',
-              right: '20px',
+              top: '18px',
+              right: '18px',
               width: '34px',
               height: '34px',
               borderRadius: '50%',
@@ -71,11 +80,14 @@ export function ResumeModal({ isOpen, onClose }) {
               border: '1px solid var(--border-subtle)',
               color: 'var(--text-secondary)',
               cursor: 'pointer',
+              zIndex: 10,
+              transition: 'all 150ms ease',
             }}
           >
             <X size={18} />
           </button>
 
+          {/* Modal Header */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '16px' }}>
             <div
               style={{
@@ -88,74 +100,300 @@ export function ResumeModal({ isOpen, onClose }) {
                 alignItems: 'center',
                 justifyContent: 'center',
                 color: 'var(--accent-primary)',
+                flexShrink: 0,
               }}
             >
               <FileText size={24} />
             </div>
-            <div>
-              <h3 id="resume-modal-title" style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--text-primary)' }}>
-                Resume Integration
-              </h3>
-              <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                <h3
+                  id="resume-modal-title"
+                  style={{
+                    fontSize: '1.25rem',
+                    fontWeight: 700,
+                    color: 'var(--text-primary)',
+                    margin: 0,
+                  }}
+                >
+                  {isAvailable ? 'Official Resume' : 'Resume Integration'}
+                </h3>
+                {isAvailable && (
+                  <span
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '4px',
+                      fontSize: '0.75rem',
+                      fontWeight: 600,
+                      padding: '2px 8px',
+                      borderRadius: '9999px',
+                      background: 'rgba(16, 185, 129, 0.14)',
+                      color: '#10b981',
+                      border: '1px solid rgba(16, 185, 129, 0.28)',
+                    }}
+                  >
+                    <CheckCircle2 size={12} />
+                    Verified & Ready
+                  </span>
+                )}
+              </div>
+              <p
+                style={{
+                  fontSize: '0.875rem',
+                  color: 'var(--text-secondary)',
+                  margin: '2px 0 0',
+                }}
+              >
                 {profileData.name} — {profileData.role}
               </p>
             </div>
           </div>
 
-          <p style={{ fontSize: '0.9375rem', color: 'var(--text-secondary)', lineHeight: 1.6, marginBottom: '20px' }}>
-            The official resume PDF hasn't been uploaded yet to prevent broken links during initial review.
-          </p>
-
-          <div
-            style={{
-              background: 'var(--surface-card)',
-              border: '1px dashed var(--border-subtle)',
-              borderRadius: '12px',
-              padding: '16px',
-              marginBottom: '24px',
-            }}
-          >
-            <div style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '8px' }}>
-              How to add your resume:
-            </div>
-            <ol style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', paddingLeft: '20px', lineHeight: 1.6 }}>
-              <li>Save your resume as <code>resume.pdf</code> into the <code>/public</code> directory.</li>
-              <li>Open <code>src/data/profile.js</code> and change <code>resume.isAvailable = true</code>.</li>
-            </ol>
-
-            <div style={{ marginTop: '12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'var(--bg-base)', padding: '6px 12px', borderRadius: '6px', border: '1px solid var(--border-subtle)' }}>
-              <span style={{ fontFamily: 'monospace', fontSize: '0.75rem', color: 'var(--accent-primary)' }}>
-                public/resume.pdf
-              </span>
-              <button
-                onClick={handleCopyPath}
-                style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', fontSize: '0.75rem', color: 'var(--text-secondary)', cursor: 'pointer' }}
-                title="Copy relative path"
+          {isAvailable ? (
+            /* Available Resume Mode: Live Preview + Direct Actions */
+            <div style={{ display: 'flex', flexDirection: 'column', flex: 1, minHeight: 0 }}>
+              {/* Document Info Bar */}
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  flexWrap: 'wrap',
+                  gap: '8px',
+                  background: 'var(--surface-card)',
+                  border: '1px solid var(--border-subtle)',
+                  borderRadius: '10px',
+                  padding: '8px 14px',
+                  marginBottom: '14px',
+                }}
               >
-                {copied ? <Check size={14} style={{ color: '#10b981' }} /> : <Copy size={14} />}
-                <span>{copied ? 'Copied' : 'Copy'}</span>
-              </button>
-            </div>
-          </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <span
+                    style={{
+                      fontSize: '0.75rem',
+                      fontWeight: 600,
+                      textTransform: 'uppercase',
+                      padding: '2px 6px',
+                      borderRadius: '4px',
+                      background: 'var(--badge-bg)',
+                      color: 'var(--accent-primary)',
+                      border: '1px solid var(--badge-border)',
+                    }}
+                  >
+                    PDF
+                  </span>
+                  <span
+                    style={{
+                      fontSize: '0.8125rem',
+                      fontFamily: 'monospace',
+                      color: 'var(--text-primary)',
+                      fontWeight: 500,
+                    }}
+                  >
+                    {resumeConfig.fileName || 'Badal_Pipalde_Resume.pdf'}
+                  </span>
+                </div>
 
-          <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', justifyContent: 'flex-end' }}>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={onClose}
-            >
-              Close
-            </Button>
-            <Button
-              variant="primary"
-              size="sm"
-              as="a"
-              href={`mailto:${profileData.contact.email}?subject=Resume Request - ${encodeURIComponent(profileData.name)}`}
-              iconLeft={<Mail size={15} />}
-            >
-              Request via Email
-            </Button>
-          </div>
+                <button
+                  onClick={handleCopyPath}
+                  type="button"
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '5px',
+                    fontSize: '0.75rem',
+                    color: 'var(--text-secondary)',
+                    background: 'transparent',
+                    border: 'none',
+                    cursor: 'pointer',
+                    padding: '4px 8px',
+                    borderRadius: '6px',
+                  }}
+                  title="Copy direct link to resume"
+                >
+                  {copied ? <Check size={13} style={{ color: '#10b981' }} /> : <Copy size={13} />}
+                  <span>{copied ? 'Link Copied!' : 'Copy Link'}</span>
+                </button>
+              </div>
+
+              {/* Embedded PDF Viewer Frame */}
+              <div
+                style={{
+                  flex: 1,
+                  minHeight: '380px',
+                  height: '460px',
+                  borderRadius: '12px',
+                  overflow: 'hidden',
+                  border: '1px solid var(--border-subtle)',
+                  background: '#1a1a1a',
+                  marginBottom: '18px',
+                  position: 'relative',
+                }}
+              >
+                <iframe
+                  src={`${resumeConfig.filePath}#toolbar=0&navpanes=0`}
+                  title={`${profileData.name} Resume`}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    border: 'none',
+                    display: 'block',
+                  }}
+                />
+              </div>
+
+              {/* Modal Actions Footer */}
+              <div
+                style={{
+                  display: 'flex',
+                  gap: '10px',
+                  flexWrap: 'wrap',
+                  justifyContent: 'flex-end',
+                  alignItems: 'center',
+                }}
+              >
+                <Button variant="ghost" size="sm" onClick={onClose}>
+                  Close
+                </Button>
+
+                <Button
+                  variant="outline"
+                  size="sm"
+                  as="a"
+                  href={resumeConfig.filePath}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  iconLeft={<ExternalLink size={15} />}
+                >
+                  Open Fullscreen
+                </Button>
+
+                <Button
+                  variant="primary"
+                  size="sm"
+                  as="a"
+                  href={resumeConfig.filePath}
+                  download={resumeConfig.fileName || 'Badal_Pipalde_Resume.pdf'}
+                  iconLeft={<Download size={15} />}
+                >
+                  Download PDF
+                </Button>
+              </div>
+            </div>
+          ) : (
+            /* Fallback Mode: Instructions if resume is missing */
+            <div>
+              <p
+                style={{
+                  fontSize: '0.9375rem',
+                  color: 'var(--text-secondary)',
+                  lineHeight: 1.6,
+                  marginBottom: '20px',
+                }}
+              >
+                The official resume PDF hasn't been uploaded yet to prevent broken links during initial review.
+              </p>
+
+              <div
+                style={{
+                  background: 'var(--surface-card)',
+                  border: '1px dashed var(--border-subtle)',
+                  borderRadius: '12px',
+                  padding: '16px',
+                  marginBottom: '24px',
+                }}
+              >
+                <div
+                  style={{
+                    fontSize: '0.8125rem',
+                    fontWeight: 600,
+                    color: 'var(--text-primary)',
+                    marginBottom: '8px',
+                  }}
+                >
+                  How to add your resume:
+                </div>
+                <ol
+                  style={{
+                    fontSize: '0.8125rem',
+                    color: 'var(--text-secondary)',
+                    paddingLeft: '20px',
+                    lineHeight: 1.6,
+                  }}
+                >
+                  <li>
+                    Save your resume as <code>resume.pdf</code> into the <code>/public</code> directory.
+                  </li>
+                  <li>
+                    Open <code>src/data/profile.js</code> and change <code>resume.isAvailable = true</code>.
+                  </li>
+                </ol>
+
+                <div
+                  style={{
+                    marginTop: '12px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    background: 'var(--bg-base)',
+                    padding: '6px 12px',
+                    borderRadius: '6px',
+                    border: '1px solid var(--border-subtle)',
+                  }}
+                >
+                  <span
+                    style={{
+                      fontFamily: 'monospace',
+                      fontSize: '0.75rem',
+                      color: 'var(--accent-primary)',
+                    }}
+                  >
+                    public/resume.pdf
+                  </span>
+                  <button
+                    onClick={handleCopyPath}
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '4px',
+                      fontSize: '0.75rem',
+                      color: 'var(--text-secondary)',
+                      cursor: 'pointer',
+                      background: 'none',
+                      border: 'none',
+                    }}
+                    title="Copy relative path"
+                  >
+                    {copied ? <Check size={14} style={{ color: '#10b981' }} /> : <Copy size={14} />}
+                    <span>{copied ? 'Copied' : 'Copy'}</span>
+                  </button>
+                </div>
+              </div>
+
+              <div
+                style={{
+                  display: 'flex',
+                  gap: '12px',
+                  flexWrap: 'wrap',
+                  justifyContent: 'flex-end',
+                }}
+              >
+                <Button variant="outline" size="sm" onClick={onClose}>
+                  Close
+                </Button>
+                <Button
+                  variant="primary"
+                  size="sm"
+                  as="a"
+                  href={`mailto:${profileData.contact.email}?subject=Resume Request - ${encodeURIComponent(profileData.name)}`}
+                  iconLeft={<Mail size={15} />}
+                >
+                  Request via Email
+                </Button>
+              </div>
+            </div>
+          )}
         </motion.div>
       </div>
     </AnimatePresence>

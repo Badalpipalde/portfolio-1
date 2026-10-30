@@ -131,7 +131,7 @@ export function Navbar({ activeSection, theme, toggleTheme, onOpenResumeModal })
               onClick={onOpenResumeModal}
               className="dynamic-island__resume-btn"
               type="button"
-              title="Download or configure resume"
+              title="View or download resume"
             >
               <FileText size={13} style={{ color: 'var(--accent-primary)' }} />
               <span>Resume</span>
