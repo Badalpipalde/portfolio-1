@@ -32,6 +32,7 @@ export function Contact() {
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submissionStatus, setSubmissionStatus] = useState(null); // 'success' | 'simulated' | 'error' | null
+  const [errorMessage, setErrorMessage] = useState('');
 
   const validate = () => {
     const errs = {};
@@ -72,41 +73,51 @@ export function Contact() {
 
     setIsSubmitting(true);
     setSubmissionStatus(null);
+    setErrorMessage('');
 
     try {
       if (backendEndpoint) {
-        let targetUrl = backendEndpoint;
-        let payload = { ...formData };
+        let res;
 
-        // If it's a raw Web3Forms key (not a full URL)
-        if (!backendEndpoint.startsWith('http')) {
-          targetUrl = 'https://api.web3forms.com/submit';
-          payload = {
-            access_key: backendEndpoint,
-            ...formData,
-            from_name: `${formData.name} via Portfolio`,
-          };
-        } else if (backendEndpoint.includes('web3forms.com')) {
-          payload.from_name = `${formData.name} via Portfolio`;
+        // Web3Forms: Send native FormData to bypass CORS preflight & JSON parsing issues
+        if (!backendEndpoint.startsWith('http') || backendEndpoint.includes('web3forms.com')) {
+          const accessKey = backendEndpoint.startsWith('http')
+            ? backendEndpoint.split('/').pop()
+            : backendEndpoint;
+
+          const formPayload = new FormData();
+          formPayload.append('access_key', accessKey);
+          formPayload.append('name', formData.name.trim());
+          formPayload.append('email', formData.email.trim());
+          formPayload.append('subject', formData.subject.trim());
+          formPayload.append('message', formData.message.trim());
+          formPayload.append('from_name', `${formData.name.trim()} via Portfolio`);
+
+          res = await fetch('https://api.web3forms.com/submit', {
+            method: 'POST',
+            body: formPayload,
+          });
+        } else {
+          // Formspree or custom REST API
+          res = await fetch(backendEndpoint, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Accept: 'application/json',
+            },
+            body: JSON.stringify(formData),
+          });
         }
-
-        const res = await fetch(targetUrl, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-          },
-          body: JSON.stringify(payload),
-        });
 
         const data = await res.json().catch(() => ({}));
 
-        if (res.ok && (data.success !== false)) {
+        if (res.ok && data.success !== false) {
           setSubmissionStatus('success');
           triggerConfetti();
           setFormData({ name: '', email: '', subject: '', message: '' });
         } else {
           setSubmissionStatus('error');
+          setErrorMessage(data.message || 'Service returned an error.');
         }
       } else {
         // Authentic simulated workflow when backend isn't plugged in yet
@@ -114,8 +125,9 @@ export function Contact() {
         setSubmissionStatus('simulated');
         triggerConfetti();
       }
-    } catch {
+    } catch (err) {
       setSubmissionStatus('error');
+      setErrorMessage(err.message || 'Network error occurred.');
     } finally {
       setIsSubmitting(false);
     }
@@ -364,15 +376,21 @@ export function Contact() {
                     <CheckCircle2 size={16} />
                     Message sent successfully! Thank you for reaching out.
                   </div>
+                  <p style={{ margin: '6px 0 0', fontSize: '0.825rem', color: 'var(--text-secondary)' }}>
+                    Your message was delivered to <strong>{contact.email}</strong>. (If you don't see it immediately in Gmail, check your <em>Spam</em> or <em>Promotions</em> folder).
+                  </p>
                 </div>
               )}
 
               {submissionStatus === 'error' && (
                 <div className="contact__status-banner" style={{ background: 'rgba(239,68,68,0.1)', color: '#ef4444' }} role="alert">
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 600 }}>
                     <AlertCircle size={16} />
-                    An error occurred. Please contact directly via email.
+                    {errorMessage ? `Error: ${errorMessage}` : 'An error occurred. Please try again or email directly.'}
                   </div>
+                  <p style={{ margin: '4px 0 0 24px', fontSize: '0.8rem', color: 'inherit' }}>
+                    You can always email me directly at <a href={`mailto:${contact.email}`} style={{ textDecoration: 'underline', color: 'inherit' }}>{contact.email}</a>.
+                  </p>
                 </div>
               )}
 
