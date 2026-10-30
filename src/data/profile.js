@@ -40,7 +40,7 @@ export const profileData = {
   about: {
     heading: "Turning Ideas Into Real Products",
     subtitle: "Architecture, execution, and attention to detail.",
-    
+
     // Editable biography paragraphs
     bio: [
       "I am a passionate Full Stack Developer with a strong foundation in modern JavaScript technologies, especially the MERN stack (MongoDB, Express.js, React, Node.js). I thrive at the intersection of robust backend architecture and fluid, responsive user interfaces.",
@@ -99,7 +99,7 @@ export const profileData = {
   },
 
   // Contact section texts & Free Mail Service integration
-  contact: { 
+  contact: {
     heading: "Let's Build Something Meaningful",
     subheading: "Have a project in mind, an opportunity to discuss, or just want to connect? My inbox is always open.",
     email: "badalpipalde3@gmail.com",
@@ -109,6 +109,6 @@ export const profileData = {
     // Option A (Web3Forms - Recommended): Paste your free Access Key from web3forms.com (e.g., "xxxx-xxxx-xxxx-xxxx")
     // Option B (Formspree): Paste your Formspree endpoint URL (e.g., "https://formspree.io/f/your_form_id")
     // When left empty (""), the form shows an interactive preview confirmation.
-    formEndpoint: "",
+    formEndpoint: "f61b06bf-edbb-4e48-af12-786d13da6198",
   }
 };
