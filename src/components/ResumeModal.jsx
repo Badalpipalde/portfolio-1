@@ -1,13 +1,53 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, FileText, Check, Copy, Mail, ExternalLink, Download, CheckCircle2 } from 'lucide-react';
+import {
+  X,
+  FileText,
+  Check,
+  Copy,
+  Mail,
+  ExternalLink,
+  Download,
+  CheckCircle2,
+  Maximize2,
+  Minimize2,
+} from 'lucide-react';
 import { Button } from './Button';
 import { profileData } from '../data/profile';
 
 export function ResumeModal({ isOpen, onClose }) {
   const [copied, setCopied] = useState(false);
+  const [viewMode, setViewMode] = useState('fit'); // 'fit' (entire page) | 'width' (zoomed width)
   const resumeConfig = profileData.resume;
   const isAvailable = Boolean(resumeConfig?.isAvailable && resumeConfig?.filePath);
+
+  // 1. Prevent background scrolling when modal is open (Scroll Lock)
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const originalOverflow = document.body.style.overflow;
+    const originalPaddingRight = document.body.style.paddingRight;
+
+    // Prevent layout shift from scrollbar disappearing
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+    if (scrollbarWidth > 0) {
+      document.body.style.paddingRight = `${scrollbarWidth}px`;
+    }
+    document.body.style.overflow = 'hidden';
+
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      document.body.style.paddingRight = originalPaddingRight;
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isOpen, onClose]);
 
   const handleCopyPath = () => {
     const fullUrl = typeof window !== 'undefined'
@@ -27,7 +67,7 @@ export function ResumeModal({ isOpen, onClose }) {
         style={{
           position: 'fixed',
           inset: 0,
-          background: 'rgba(0, 0, 0, 0.72)',
+          background: 'rgba(0, 0, 0, 0.76)',
           backdropFilter: 'blur(10px)',
           WebkitBackdropFilter: 'blur(10px)',
           zIndex: 1000,
@@ -35,8 +75,10 @@ export function ResumeModal({ isOpen, onClose }) {
           alignItems: 'center',
           justifyContent: 'center',
           padding: '16px',
+          overscrollBehavior: 'contain',
         }}
         onClick={onClose}
+        onWheel={(e) => e.stopPropagation()}
       >
         <motion.div
           initial={{ opacity: 0, scale: 0.95, y: 15 }}
@@ -44,19 +86,22 @@ export function ResumeModal({ isOpen, onClose }) {
           exit={{ opacity: 0, scale: 0.95, y: 15 }}
           transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
           onClick={(e) => e.stopPropagation()}
+          onWheel={(e) => e.stopPropagation()}
           style={{
             background: 'var(--bg-surface-elevated)',
             border: '1px solid var(--border-accent)',
             borderRadius: '20px',
-            maxWidth: isAvailable ? '840px' : '520px',
+            maxWidth: isAvailable ? '960px' : '520px',
             width: '100%',
-            maxHeight: '92vh',
+            height: isAvailable ? '92vh' : 'auto',
+            maxHeight: '95vh',
             display: 'flex',
             flexDirection: 'column',
             overflow: 'hidden',
-            padding: '24px 28px',
+            padding: '20px 24px 16px',
             boxShadow: 'var(--shadow-card-hover)',
             position: 'relative',
+            overscrollBehavior: 'contain',
           }}
           role="dialog"
           aria-modal="true"
@@ -68,8 +113,8 @@ export function ResumeModal({ isOpen, onClose }) {
             aria-label="Close modal"
             style={{
               position: 'absolute',
-              top: '18px',
-              right: '18px',
+              top: '16px',
+              right: '16px',
               width: '34px',
               height: '34px',
               borderRadius: '50%',
@@ -88,11 +133,11 @@ export function ResumeModal({ isOpen, onClose }) {
           </button>
 
           {/* Modal Header */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '16px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '14px', paddingRight: '40px' }}>
             <div
               style={{
-                width: '46px',
-                height: '46px',
+                width: '44px',
+                height: '44px',
                 borderRadius: '12px',
                 background: 'var(--badge-bg)',
                 border: '1px solid var(--badge-border)',
@@ -140,7 +185,7 @@ export function ResumeModal({ isOpen, onClose }) {
               </div>
               <p
                 style={{
-                  fontSize: '0.875rem',
+                  fontSize: '0.85rem',
                   color: 'var(--text-secondary)',
                   margin: '2px 0 0',
                 }}
@@ -151,9 +196,8 @@ export function ResumeModal({ isOpen, onClose }) {
           </div>
 
           {isAvailable ? (
-            /* Available Resume Mode: Live Preview + Direct Actions */
             <div style={{ display: 'flex', flexDirection: 'column', flex: 1, minHeight: 0 }}>
-              {/* Document Info Bar */}
+              {/* Document Toolbar: File Info + Zoom View Modes + Copy Link */}
               <div
                 style={{
                   display: 'flex',
@@ -164,14 +208,15 @@ export function ResumeModal({ isOpen, onClose }) {
                   background: 'var(--surface-card)',
                   border: '1px solid var(--border-subtle)',
                   borderRadius: '10px',
-                  padding: '8px 14px',
-                  marginBottom: '14px',
+                  padding: '7px 12px',
+                  marginBottom: '12px',
                 }}
               >
+                {/* File info */}
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                   <span
                     style={{
-                      fontSize: '0.75rem',
+                      fontSize: '0.72rem',
                       fontWeight: 600,
                       textTransform: 'uppercase',
                       padding: '2px 6px',
@@ -185,7 +230,7 @@ export function ResumeModal({ isOpen, onClose }) {
                   </span>
                   <span
                     style={{
-                      fontSize: '0.8125rem',
+                      fontSize: '0.8rem',
                       fontFamily: 'monospace',
                       color: 'var(--text-primary)',
                       fontWeight: 500,
@@ -195,50 +240,118 @@ export function ResumeModal({ isOpen, onClose }) {
                   </span>
                 </div>
 
-                <button
-                  onClick={handleCopyPath}
-                  type="button"
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '5px',
-                    fontSize: '0.75rem',
-                    color: 'var(--text-secondary)',
-                    background: 'transparent',
-                    border: 'none',
-                    cursor: 'pointer',
-                    padding: '4px 8px',
-                    borderRadius: '6px',
-                  }}
-                  title="Copy direct link to resume"
-                >
-                  {copied ? <Check size={13} style={{ color: '#10b981' }} /> : <Copy size={13} />}
-                  <span>{copied ? 'Link Copied!' : 'Copy Link'}</span>
-                </button>
+                {/* View Mode controls + Copy Link */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                  <div
+                    style={{
+                      display: 'inline-flex',
+                      background: 'var(--bg-base)',
+                      padding: '2px',
+                      borderRadius: '8px',
+                      border: '1px solid var(--border-subtle)',
+                    }}
+                  >
+                    <button
+                      type="button"
+                      onClick={() => setViewMode('fit')}
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '4px',
+                        padding: '4px 10px',
+                        fontSize: '0.74rem',
+                        fontWeight: 600,
+                        borderRadius: '6px',
+                        border: 'none',
+                        cursor: 'pointer',
+                        background: viewMode === 'fit' ? 'var(--accent-primary)' : 'transparent',
+                        color: viewMode === 'fit' ? '#ffffff' : 'var(--text-secondary)',
+                        transition: 'all 150ms ease',
+                      }}
+                      title="Fit whole single-page resume into view"
+                    >
+                      <Minimize2 size={12} />
+                      Fit Whole Page
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setViewMode('width')}
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '4px',
+                        padding: '4px 10px',
+                        fontSize: '0.74rem',
+                        fontWeight: 600,
+                        borderRadius: '6px',
+                        border: 'none',
+                        cursor: 'pointer',
+                        background: viewMode === 'width' ? 'var(--accent-primary)' : 'transparent',
+                        color: viewMode === 'width' ? '#ffffff' : 'var(--text-secondary)',
+                        transition: 'all 150ms ease',
+                      }}
+                      title="Fit to width with scrolling"
+                    >
+                      <Maximize2 size={12} />
+                      Fit Width
+                    </button>
+                  </div>
+
+                  <button
+                    onClick={handleCopyPath}
+                    type="button"
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '4px',
+                      fontSize: '0.75rem',
+                      color: 'var(--text-secondary)',
+                      background: 'transparent',
+                      border: 'none',
+                      cursor: 'pointer',
+                      padding: '4px 8px',
+                      borderRadius: '6px',
+                    }}
+                    title="Copy direct link to resume"
+                  >
+                    {copied ? <Check size={13} style={{ color: '#10b981' }} /> : <Copy size={13} />}
+                    <span>{copied ? 'Link Copied!' : 'Copy Link'}</span>
+                  </button>
+                </div>
               </div>
 
-              {/* Embedded PDF Viewer Frame */}
+              {/* Embedded PDF Viewer Frame - Fully Isolated Scroll */}
               <div
                 style={{
                   flex: 1,
-                  minHeight: '380px',
-                  height: '460px',
-                  borderRadius: '12px',
+                  minHeight: '560px',
+                  height: '70vh',
+                  maxHeight: '780px',
+                  borderRadius: '14px',
                   overflow: 'hidden',
                   border: '1px solid var(--border-subtle)',
-                  background: '#1a1a1a',
-                  marginBottom: '18px',
+                  background: '#525659',
+                  marginBottom: '14px',
                   position: 'relative',
+                  width: '100%',
+                  overscrollBehavior: 'contain',
+                  scrollBehavior: 'smooth',
                 }}
+                onWheel={(e) => e.stopPropagation()}
               >
                 <iframe
-                  src={`${resumeConfig.filePath}#toolbar=0&navpanes=0`}
+                  key={viewMode}
+                  src={`${resumeConfig.filePath}#page=1&view=${viewMode === 'fit' ? 'Fit' : 'FitH,0,0'}&toolbar=0&navpanes=0`}
                   title={`${profileData.name} Resume`}
                   style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
                     width: '100%',
                     height: '100%',
                     border: 'none',
                     display: 'block',
+                    overscrollBehavior: 'contain',
                   }}
                 />
               </div>

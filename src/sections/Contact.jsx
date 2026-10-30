@@ -16,17 +16,11 @@ import { Button } from '../components/Button';
 import { profileData } from '../data/profile';
 import { socialLinks } from '../data/socialLinks';
 
-// =============================================================================
-// BACKEND INTEGRATION POINT
-// 
-// When you're ready to connect a live backend or third-party service:
-// 1. Enter your API URL below (e.g., Formspree, EmailJS, or Express backend)
-// 2. Or replace the simulated handler in `handleSubmit`
-// =============================================================================
-const BACKEND_API_URL = ''; // e.g. 'https://formspree.io/f/your_form_id'
-
 export function Contact() {
   const { contact } = profileData;
+
+  // Endpoint can be configured in src/data/profile.js (contact.formEndpoint) or via env variable
+  const backendEndpoint = contact.formEndpoint?.trim() || (import.meta.env?.VITE_CONTACT_API_URL || '').trim();
 
   const [formData, setFormData] = useState({
     name: '',
@@ -80,15 +74,34 @@ export function Contact() {
     setSubmissionStatus(null);
 
     try {
-      if (BACKEND_API_URL) {
-        // Send to real backend
-        const res = await fetch(BACKEND_API_URL, {
+      if (backendEndpoint) {
+        let targetUrl = backendEndpoint;
+        let payload = { ...formData };
+
+        // If it's a raw Web3Forms key (not a full URL)
+        if (!backendEndpoint.startsWith('http')) {
+          targetUrl = 'https://api.web3forms.com/submit';
+          payload = {
+            access_key: backendEndpoint,
+            ...formData,
+            from_name: `${formData.name} via Portfolio`,
+          };
+        } else if (backendEndpoint.includes('web3forms.com')) {
+          payload.from_name = `${formData.name} via Portfolio`;
+        }
+
+        const res = await fetch(targetUrl, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(formData),
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+          },
+          body: JSON.stringify(payload),
         });
 
-        if (res.ok) {
+        const data = await res.json().catch(() => ({}));
+
+        if (res.ok && (data.success !== false)) {
           setSubmissionStatus('success');
           triggerConfetti();
           setFormData({ name: '', email: '', subject: '', message: '' });
@@ -117,7 +130,7 @@ export function Contact() {
         origin: { y: 0.8 },
         colors: isDark
           ? ['#000000', '#171717', '#2D2011', '#403427', '#51463B', '#61574D', '#c49d7b']
-          : ['#0D1B2A', '#1B263B', '#415A77', '#778DA9', '#E0E1DD'],
+          : ['#0D1321', '#1D2D44', '#3E5C76', '#748CAB', '#F0EBD8'],
       });
     } catch {
       // Ignore confetti errors

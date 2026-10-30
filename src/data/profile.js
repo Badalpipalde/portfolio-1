@@ -98,11 +98,17 @@ export const profileData = {
     externalUrl: "", // Optional Google Drive or LinkedIn URL
   },
 
-  // Contact section texts
+  // Contact section texts & Free Mail Service integration
   contact: { 
     heading: "Let's Build Something Meaningful",
     subheading: "Have a project in mind, an opportunity to discuss, or just want to connect? My inbox is always open.",
-    email: "badalpipalde3@gmail.com", // Replace with your real email address
+    email: "badalpipalde3@gmail.com",
     responseTime: "Typically responds within 24 hours",
+
+    // Free Email Service Configuration:
+    // Option A (Web3Forms - Recommended): Paste your free Access Key from web3forms.com (e.g., "xxxx-xxxx-xxxx-xxxx")
+    // Option B (Formspree): Paste your Formspree endpoint URL (e.g., "https://formspree.io/f/your_form_id")
+    // When left empty (""), the form shows an interactive preview confirmation.
+    formEndpoint: "",
   }
 };
