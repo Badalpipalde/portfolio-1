@@ -94,15 +94,15 @@ export const profileData = {
     filePath: "/resume.pdf",
     fileName: "Badal_Pipalde_Resume.pdf",
     // Set to true once you put resume.pdf into the /public folder:
-    isAvailable: false,
+    isAvailable: true,
     externalUrl: "", // Optional Google Drive or LinkedIn URL
   },
 
   // Contact section texts
-  contact: {
+  contact: { 
     heading: "Let's Build Something Meaningful",
     subheading: "Have a project in mind, an opportunity to discuss, or just want to connect? My inbox is always open.",
-    email: "badalpipalde@example.com", // Replace with your real email address
+    email: "badalpipalde3@gmail.com", // Replace with your real email address
     responseTime: "Typically responds within 24 hours",
   }
 };

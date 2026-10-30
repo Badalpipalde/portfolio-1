@@ -110,11 +110,14 @@ export function Contact() {
 
   const triggerConfetti = () => {
     try {
+      const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
       confetti({
         particleCount: 60,
         spread: 60,
         origin: { y: 0.8 },
-        colors: ['#2563eb', '#3b82f6', '#8b5cf6', '#10b981'],
+        colors: isDark
+          ? ['#000000', '#171717', '#2D2011', '#403427', '#51463B', '#61574D', '#c49d7b']
+          : ['#0D1B2A', '#1B263B', '#415A77', '#778DA9', '#E0E1DD'],
       });
     } catch {
       // Ignore confetti errors

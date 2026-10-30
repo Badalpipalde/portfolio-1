@@ -70,26 +70,26 @@ export function Hero3DFallback() {
         {/* Code Content */}
         <div style={{ padding: '20px', fontFamily: 'monospace', fontSize: '0.8125rem', lineHeight: 1.7, color: 'var(--text-secondary)' }}>
           <div>
-            <span style={{ color: '#8b5cf6' }}>const</span>{' '}
-            <span style={{ color: '#3b82f6' }}>engineer</span> = &#123;
+            <span style={{ color: 'var(--accent-secondary)' }}>const</span>{' '}
+            <span style={{ color: 'var(--accent-primary)' }}>engineer</span> = &#123;
           </div>
           <div style={{ paddingLeft: '20px' }}>
-            <span style={{ color: '#93c5fd' }}>name:</span>{' '}
+            <span style={{ color: 'var(--badge-text)' }}>name:</span>{' '}
             <span style={{ color: '#10b981' }}>&quot;Badal Pipalde&quot;</span>,
           </div>
           <div style={{ paddingLeft: '20px' }}>
-            <span style={{ color: '#93c5fd' }}>stack:</span> [
-            <span style={{ color: '#60a5fa' }}>&quot;MongoDB&quot;</span>,{' '}
-            <span style={{ color: '#60a5fa' }}>&quot;Express&quot;</span>,{' '}
-            <span style={{ color: '#60a5fa' }}>&quot;React&quot;</span>,{' '}
-            <span style={{ color: '#60a5fa' }}>&quot;Node.js&quot;</span>],
+            <span style={{ color: 'var(--badge-text)' }}>stack:</span> [
+            <span style={{ color: 'var(--accent-primary-hover)' }}>&quot;MongoDB&quot;</span>,{' '}
+            <span style={{ color: 'var(--accent-primary-hover)' }}>&quot;Express&quot;</span>,{' '}
+            <span style={{ color: 'var(--accent-primary-hover)' }}>&quot;React&quot;</span>,{' '}
+            <span style={{ color: 'var(--accent-primary-hover)' }}>&quot;Node.js&quot;</span>],
           </div>
           <div style={{ paddingLeft: '20px' }}>
-            <span style={{ color: '#93c5fd' }}>focus:</span>{' '}
+            <span style={{ color: 'var(--badge-text)' }}>focus:</span>{' '}
             <span style={{ color: '#f59e0b' }}>&quot;Scalable Architecture &amp; Fluid UI&quot;</span>,
           </div>
           <div style={{ paddingLeft: '20px' }}>
-            <span style={{ color: '#93c5fd' }}>passion:</span>{' '}
+            <span style={{ color: 'var(--badge-text)' }}>passion:</span>{' '}
             <span style={{ color: '#10b981' }}>&quot;Turning ideas into real products&quot;</span>
           </div>
           <div>&#125;;</div>

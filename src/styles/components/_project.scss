@@ -60,7 +60,7 @@
     justify-content: center;
     padding: 24px;
     position: relative;
-    background: radial-gradient(circle at 50% 50%, rgba(37, 99, 235, 0.08) 0%, transparent 80%);
+    background: radial-gradient(circle at 50% 50%, rgba(var(--color-primary-raw), 0.12) 0%, transparent 80%);
 
     &-grid {
       position: absolute;

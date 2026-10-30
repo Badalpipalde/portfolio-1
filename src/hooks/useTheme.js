@@ -22,6 +22,10 @@ export function useTheme() {
     try {
       document.documentElement.setAttribute('data-theme', theme);
       localStorage.setItem(STORAGE_KEY, theme);
+      const metaTheme = document.querySelector('meta[name="theme-color"]');
+      if (metaTheme) {
+        metaTheme.setAttribute('content', theme === 'dark' ? '#000000' : '#E0E1DD');
+      }
     } catch {
       // Ignore storage errors
     }

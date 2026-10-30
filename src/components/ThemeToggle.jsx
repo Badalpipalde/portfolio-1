@@ -48,7 +48,7 @@ export function ThemeToggle({ theme, toggleTheme }) {
             transition={{ duration: 0.2 }}
             style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
           >
-            <Moon size={19} style={{ color: '#3b82f6' }} />
+            <Moon size={19} style={{ color: 'var(--accent-primary)' }} />
           </motion.div>
         )}
       </AnimatePresence>

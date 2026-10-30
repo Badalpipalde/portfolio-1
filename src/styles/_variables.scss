@@ -17,6 +17,36 @@ $color-violet: #8b5cf6; // Subtle Violet Accent
 $color-violet-light: #a78bfa;
 $color-violet-glow: rgba(139, 92, 246, 0.22);
 
+// Dark Mode Palette Design Tokens (Espresso Shadow Hideout)
+// -----------------------------------------------------------------------------
+// Band 1: Pure Black (#000000)
+// Band 2: Rich Jet Charcoal (#171717)
+// Band 3: Deep Espresso (#2D2011)
+// Band 4: Dark Walnut Mocha (#403427)
+// Band 5: Warm Taupe (#51463B)
+// Band 6: Cocoa Dust (#61574D)
+// Crema Accent: Caramel Crema (#c49d7b)
+$color-dark-black: #000000;
+$color-dark-jet: #171717;
+$color-dark-espresso: #2D2011;
+$color-dark-mocha: #403427;
+$color-dark-taupe: #51463B;
+$color-dark-cocoa: #61574D;
+$color-dark-crema: #c49d7b;
+
+// Light Mode Palette Design Tokens (Deep Sea)
+// -----------------------------------------------------------------------------
+// Band 1: Deep Navy (#0D1B2A)
+// Band 2: Oxford Blue (#1B263B)
+// Band 3: Steel Blue (#415A77)
+// Band 4: Shadow Blue (#778DA9)
+// Band 5: Platinum Canvas (#E0E1DD)
+$color-light-base: #E0E1DD;
+$color-light-shadow: #778DA9;
+$color-light-steel: #415A77;
+$color-light-oxford: #1B263B;
+$color-light-navy: #0D1B2A;
+
 $color-emerald: #10b981; // Status indicator green
 $color-amber: #f59e0b;
 
