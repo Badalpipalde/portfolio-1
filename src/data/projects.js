@@ -75,37 +75,35 @@ export const projectsData = [
     }
   },
   {
-    id: "project-01",
-    isPlaceholder: true,
-    title: "Full Stack MERN Web Application",
-    shortDescription: "A scalable full-stack application built with MongoDB, Express.js, React, and Node.js featuring secure authentication, RESTful APIs, and responsive state management.",
+    id: "vidyaquest",
+    isPlaceholder: false,
+    title: "VidyaQuest — Gamified Learning Platform",
+    shortDescription: "A full-stack MERN gamified educational platform empowering rural students with interactive quizzes, coding challenges, and real-time progress tracking.",
     category: "Full Stack",
-    tags: ["MongoDB", "Express.js", "React.js", "Node.js", "JWT", "REST API"],
+    tags: ["MongoDB", "Express.js", "React.js", "Node.js", "Gamification", "REST API", "Vercel"],
     
-    // Replace with your real URLs when available.
-    // If left empty (""), the button will gracefully remain hidden.
-    liveUrl: "", 
-    githubUrl: "",
+    liveUrl: "https://vidyaquest-ruraltitans.vercel.app/login", 
+    githubUrl: "", // Will update when repository link is provided
     
-    // Image placeholder identifier or path
-    image: null, 
-    placeholderVariant: "mern", // used to render sleek neutral geometric preview
+    image: "/projects/vidyaquest.png", 
+    placeholderVariant: "education",
     featured: true,
 
     caseStudy: {
-      tagline: "End-to-end full stack architecture & design",
-      overview: "This project serves as a cornerstone full-stack showcase demonstrating complete architectural cohesion between a React-powered frontend and an Express/Node backend backed by MongoDB.",
+      tagline: "Gamified quizzes, coding challenges & progress tracking for rural education",
+      overview: "VidyaQuest is an engaging full-stack MERN ed-tech platform specifically designed to make quality learning accessible and exciting for students in rural communities. By integrating gamified learning mechanics (quizzes, coding exercises, visual badges, and scoreboards), VidyaQuest inspires students to build digital and academic skills through active play while tracking their growth over time.",
       challenges: [
-        "Implementing secure, sessionless authentication using JSON Web Tokens with HTTP-only cookies.",
-        "Structuring normalized data models in Mongoose with efficient indexing and query optimization.",
-        "Designing responsive state synchronization between server and client without unnecessary rerenders."
+        "Designing an intuitive, friendly, and accessible user onboarding and learning flow optimized for students across diverse backgrounds.",
+        "Developing gamified modules (interactive quizzes, coding challenges, and dynamic reward telemetry) to keep retention and motivation high.",
+        "Engineering responsive MERN REST endpoints and MongoDB models to record student achievements, scores, and quiz histories reliably."
       ],
       architecture: [
-        "Client: React with component-driven architecture and modular styles",
-        "Server: Express REST API with modular controllers, middleware validation, and error routing",
-        "Database: MongoDB with schema enforcement and aggregation queries"
+        "Frontend: Responsive React.js application with vibrant gamified UI elements, smooth state management, and clear onboarding workflows.",
+        "Backend: Node.js & Express REST API orchestrating user authentication, module evaluation, and progress persistence.",
+        "Database: Normalized MongoDB collections handling user profiles, quiz curriculum, and real-time score registries.",
+        "Deployment: Continuous cloud hosting on Vercel with high uptime and responsive global delivery."
       ],
-      keyTakeaways: "Demonstrates practical full-stack deployment patterns, clean separation of concerns, and production readiness."
+      keyTakeaways: "Demonstrates production MERN stack capability with meaningful social impact, translating gamified learning concepts into responsive, maintainable full-stack web software."
     }
   },
   {

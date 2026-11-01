@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { motion } from 'framer-motion';
-import { ExternalLink, ArrowUpRight, Layers, Layout, Server, Sparkles, Bot, Dumbbell } from 'lucide-react';
+import { ExternalLink, ArrowUpRight, Layers, Layout, Server, Sparkles, Bot, Dumbbell, GraduationCap } from 'lucide-react';
 import { GithubIcon } from './BrandIcons';
 import { Button } from './Button';
 import { useReducedMotion } from '../hooks/useReducedMotion';
@@ -44,6 +44,9 @@ export function ProjectCard({ project, onOpenCaseStudy }) {
       case 'fitness':
       case 'gym':
         return <Dumbbell size={28} />;
+      case 'education':
+      case 'gamified':
+        return <GraduationCap size={28} />;
       case 'mern':
         return <Layers size={28} />;
       case 'dashboard':
