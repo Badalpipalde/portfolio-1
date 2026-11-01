@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { motion } from 'framer-motion';
-import { ExternalLink, ArrowUpRight, Layers, Layout, Server, Sparkles } from 'lucide-react';
+import { ExternalLink, ArrowUpRight, Layers, Layout, Server, Sparkles, Bot, Dumbbell } from 'lucide-react';
 import { GithubIcon } from './BrandIcons';
 import { Button } from './Button';
 import { useReducedMotion } from '../hooks/useReducedMotion';
@@ -38,6 +38,12 @@ export function ProjectCard({ project, onOpenCaseStudy }) {
 
   const renderSchematicIcon = () => {
     switch (project.placeholderVariant) {
+      case 'chatbot':
+      case 'museum':
+        return <Bot size={28} />;
+      case 'fitness':
+      case 'gym':
+        return <Dumbbell size={28} />;
       case 'mern':
         return <Layers size={28} />;
       case 'dashboard':
@@ -88,7 +94,7 @@ export function ProjectCard({ project, onOpenCaseStudy }) {
           <div className="project-card__schematic">
             <div className="project-card__schematic-grid" />
             <div className="project-card__schematic-badge">
-              <span>CONFIGURABLE PLACEHOLDER</span>
+              <span>{project.isPlaceholder ? 'CONFIGURABLE PLACEHOLDER' : 'LIVE PROJECT'}</span>
             </div>
             <div className="project-card__schematic-glyph">
               {renderSchematicIcon()}

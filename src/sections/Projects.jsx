@@ -76,7 +76,7 @@ export function Projects() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <Info size={18} style={{ color: 'var(--accent-primary)', flexShrink: 0 }} />
             <p className="projects__instruction-banner-text">
-              Project placeholders ready for your custom data. Edit titles, links, and tags anytime in <code>src/data/projects.js</code>.
+              Selected production work and architecture case studies. Live demos and repositories updated continuously.
             </p>
           </div>
         </div>

@@ -140,6 +140,32 @@ export function ProjectModal({ project, isOpen, onClose }) {
               gap: '24px',
             }}
           >
+            {/* Project Screenshot Banner */}
+            {project.image && (
+              <div
+                style={{
+                  width: '100%',
+                  height: '240px',
+                  borderRadius: '14px',
+                  overflow: 'hidden',
+                  border: '1px solid var(--border-subtle)',
+                  background: 'var(--surface-card)',
+                  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.12)',
+                }}
+              >
+                <img
+                  src={project.image}
+                  alt={project.title}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    display: 'block',
+                  }}
+                />
+              </div>
+            )}
+
             {/* Overview */}
             {caseStudy.overview && (
               <div>
